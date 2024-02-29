@@ -56,8 +56,6 @@ class App:
         def index():
             return render_template("index.html")
 
-# Gay.
-
     def run(self):
         self.app.run(
             host="0.0.0.0",
