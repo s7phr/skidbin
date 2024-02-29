@@ -23,7 +23,7 @@ class App:
         self.jwt = JWTManager(self.app)
         self.log = terminut.log()
         self.cf = json.load(open("helpers/config/settings.json", encoding="utf-8"))
-        self.db = connect("helpers/schemas/users.db")
+        self.db = connect("helpers/schemas/db.db")
         self.cursor = self.db.cursor()
         self.cursor.execute(
             """
@@ -32,6 +32,15 @@ class App:
                 username TEXT NOT NULL,
                 password TEXT NOT NULL,
                 token TEXT NOT NULL
+            )
+            """
+        )
+        self.cursor.execute(
+            """
+            CREATE TABLE IF NOT EXISTS pastes (
+                id TEXT PRIMARY KEY,
+                title TEXT NOT NULL,
+                content TEXT NOT NULL
             )
             """
         )
@@ -58,13 +67,50 @@ class App:
             site = self.cf.get("site")
             return render_template(
                 template_name_or_list="index.html",
-                total=5000,
-                pastes=300,
+                total=0,
+                pastes=0,
                 user=site.get("created-by"),
                 added_by=site.get("added-by"),
                 url=site.get("url"),
                 title=site.get("title"),
+                views=site.get("views"),
             )
+
+        @self.app.route("/upload")
+        def upload():
+            return render_template(
+                template_name_or_list="upload.html",
+            )
+
+        @self.app.route("/api/paste", methods=["POST"])
+        def uploads():
+            data = request.json
+            title = data.get("title")
+            content = data.get("content")
+
+            if not title or not content:
+                return jsonify({"error": "Title and content are required"}), 400
+
+            paste_id = str(uuid4())
+
+            self.cursor.execute(
+                """
+                INSERT INTO pastes (
+                    id, 
+                    title, 
+                    content
+                ) 
+                VALUES (?, ?, ?)
+                """,
+                (
+                    paste_id,
+                    title,
+                    content,
+                ),
+            )
+            self.db.commit()
+
+            return jsonify({"paste_id": paste_id}), 201
 
     def run(self):
         self.app.run(
