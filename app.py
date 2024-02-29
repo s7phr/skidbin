@@ -22,6 +22,7 @@ class App:
         self.app.config["JWT_ACCESS_TOKEN_EXPIRES"] = False
         self.jwt = JWTManager(self.app)
         self.log = terminut.log()
+        self.cf = json.load(open("helpers/config/settings.json", encoding="utf-8"))
         self.db = connect("helpers/schemas/users.db")
         self.cursor = self.db.cursor()
         self.cursor.execute(
@@ -54,9 +55,16 @@ class App:
 
         @self.app.route("/")
         def index():
-            return render_template("index.html")
-
-# Gay.
+            site = self.cf.get("site")
+            return render_template(
+                template_name_or_list="index.html",
+                total=5000,
+                pastes=300,
+                user=site.get("created-by"),
+                added_by=site.get("added-by"),
+                url=site.get("url"),
+                title=site.get("title"),
+            )
 
     def run(self):
         self.app.run(
