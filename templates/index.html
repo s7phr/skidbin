@@ -14,6 +14,8 @@
     <link rel="stylesheet" href="{{url_for('static', filename='styles/index.min.css')}}">
     <link rel="stylesheet" href="{{url_for('static', filename='styles/skidbin.min.css')}}">
     <link rel="stylesheet" href="{{url_for('static', filename='styles/main.min.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='styles/skidbin.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='styles/query.min.css')}}">
 
     <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -42,8 +44,53 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
+            <a class="navbar-brand" href="/">Skidbin</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="/">Home</a></li>
+                <li><a href="/upload">Upload Paste</a></li>
+                <li><a href="/users">Users</a></li>
+                <li><a href="https://t.me/societyrule">Telegram</a></li>
+            </ul>
+            <div class="sidebar-right">
+                <ul class="nav navbar-nav">
+                    <li><a href="/login">Login</a></li>
+                    <li><a href="/register">Register</a></li>
+                </ul>
+            </div>
         </div>
     </div>
 </nav>
+<div class="col-md-12">
+    <div class="col-md-12" style="margin-top: 55px; float: none;">
+        <div align="center">
+            <pre
+                style="font: 2px/1px monospace; background-color: #060606; overflow-x: hidden; overflow-y: hidden; border: none; color: white;">
+            </pre>
+            <h5 class="announcement a-1" style="color:#2AABEE;"><u>
+                    <a style="color:inherit;" href="https://t.me/societyrule">Official Skidbin Telegram</a>
+                    <h5 class="announcement a-2" style="color:#BBAAEE;"><u>
+                            <a style="color:inherit;" href="https://t.me/societyrule">Mirrors: skidbin.us
+                                |skidbin.com</a>
+                        </u>
+                    </h5>
+                    <noscript>
+                        <p style="color: red; padding: 0px 0px 10px 0px; text-align: center; margin: 0;">Searching
+                            requires JavaScript to function correctly.<br>
+                        </p>
+                    </noscript>
+                    <div id="error-msg" style="color: red; padding: 0px 0px 10px 0px; text-align: center; margin: 0;">
+                    </div>
+                    <label for="search-form" style="font-size: 15px;margin:0;">Search the query for a paste.</label><br>
+                    <form id="search-form" method="POST" action="search">
+                        <input type="hidden" name="_token" value="zpSMSYrfE8E5pqcAbEsp2B2zXcAy50KRsOaUlaM2">
+                        <input name="search-query" type="text" placeholder="What are you searching for?">
+                        <input type="submit" value="Search"><br>
+                    </form>
+
+            </h5>
+        </div>
+    </div>
 
 </html>
